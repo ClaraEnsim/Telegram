@@ -1,6 +1,6 @@
 package fr.ensim.interop.introrest.model.weather;
 
-import fr.ensim.interop.introrest.model.Weather;
+import fr.ensim.interop.introrest.model.weather.Weather;
 
 import java.util.List;
 

@@ -13,25 +13,8 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class OpenWeatherRestController {
 
-    private final static String API_KEY="8123671151";
+    private final static String API_KEY="17bfae4b92f752f0d32d089df115c48a";
 
-    @GetMapping("/meteo")
-    public ResponseEntity<OpenWeather> meteoByVille(
-            @RequestParam("ville") String nomVille) {
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<City[]> responseEntity = restTemplate.getForEntity("http://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}"
-                        + "&appid=" + API_KEY,
-                City[].class, nomVille);
-        City[] cities = responseEntity.getBody();
-        City city = cities[0];
-
-        OpenWeather openWeather = restTemplate.getForObject("http://api.openweathermap.org/data/2.5/weather?lat={lat}"
-                        + "&lon={longitude}&appid=" + API_KEY,
-                OpenWeather.class, city.getLat(), city.getLon());
-
-        return ResponseEntity.ok().body(openWeather);
-    }
 
     @GetMapping("/v2/meteo")
     public ResponseEntity<Meteo> meteoByVilleV2(
@@ -46,10 +29,10 @@ public class OpenWeatherRestController {
 
         OpenWeather openWeather = restTemplate.getForObject("http://api.openweathermap.org/data/2.5/weather?lat={lat}"
                         + "&lon={longitude}&units=metric&lang=fr&appid=" + API_KEY,
-                OpenWeather.class, city.getLat(), city.getLon());
+                OpenWeather.class, city.getLat(), city.getLon()); //à modifier pour récupérer une liste
 
-        Meteo meteo = new Meteo();
-        meteo.setMeteo(openWeather.getWeather().get(0).getMain());
+        Meteo meteo = new Meteo(); //à modifier pour récupérer une liste
+        openWeather.getWeather().get(0).setMain(meteo.getMeteo());
         meteo.setDetails(openWeather.getWeather().get(0).getDescription());
         meteo.setTemperature(openWeather.getMain().getTemp());
 
