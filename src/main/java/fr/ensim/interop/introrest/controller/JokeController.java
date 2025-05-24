@@ -2,7 +2,7 @@ package fr.ensim.interop.introrest.controller;
 
 import fr.ensim.interop.introrest.model.joke.Joke;
 import fr.ensim.interop.introrest.model.joke.JokeInput;
-import fr.ensim.interop.introrest.serive.JokeService;
+import fr.ensim.interop.introrest.service.JokeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

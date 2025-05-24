@@ -1,4 +1,4 @@
-package fr.ensim.interop.introrest.serive;
+package fr.ensim.interop.introrest.service;
 
 import fr.ensim.interop.introrest.model.joke.Joke;
 import fr.ensim.interop.introrest.model.joke.JokeInput;

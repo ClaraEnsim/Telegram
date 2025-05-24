@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import fr.ensim.interop.introrest.model.telegram.*;
 import fr.ensim.interop.introrest.model.weather.Meteo;
+import fr.ensim.interop.introrest.model.joke.Joke;
 import fr.ensim.interop.introrest.model.weather.Discussion;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -84,27 +85,52 @@ public class ListenerUpdateTelegram {
 					String main = meteo.getMeteo();
 					String temperature = meteo.getTemperature();
 
-					String message = "🌤 Météo à " + ville + "\n" +
+					String message = " Météo à " + ville + "\n" +
 							"- Température : " + temperature + "°C\n" +
 							"- Ciel : " + main + " (" + description + ")";
 
 					sendMessage(chatId, message);
 				} else {
-					sendMessage(chatId, "❌ Ville non trouvée.");
+					sendMessage(chatId, " Ville non trouvée.");
 				}
 			} catch (Exception e) {
 				sendMessage(chatId, "⚠ Erreur lors de la récupération de la météo.");
 			}
 
+		} else if (messageText.toLowerCase().startsWith("blague")) {
+			try {
+				String url = "http://localhost:9090/api/v1/joke/random";
+
+				if (messageText.toLowerCase().contains("nulle") || messageText.toLowerCase().contains("mauvaise")) {
+					url += "?quality=bad";
+				} else if (messageText.toLowerCase().contains("bonne") || messageText.toLowerCase().contains("excellente")) {
+					url += "?quality=good";
+				}
+
+				Joke joke = restTemplate.getForObject(url, Joke.class);
+
+				if (joke != null) {
+					String message = "**" + joke.getTitre() + "**\n\n" +
+							joke.getTexte() + "\n\n" +
+							" Note: " + joke.getNote() + "/10";
+
+					sendMessage(chatId, message);
+				} else {
+					sendMessage(chatId, " Aucune blague disponible pour cette qualité.");
+				}
+			} catch (Exception e) {
+				sendMessage(chatId, " Erreur lors de la récupération de la blague.");
+				e.printStackTrace();
+			}
 		} else {
-			sendMessage(chatId, "Commande inconnue. Essayez par exemple : Météo Paris");
+			sendMessage(chatId, "Commande inconnue. Essayez par exemple : Météo Paris ou Blague");
 		}
 
 	}
 
 	private void sendMessage(String chatId, String text) {
 		if (text == null || text.trim().isEmpty()) {
-			System.out.println("❌ Message vide, rien envoyé à Telegram.");
+			System.out.println(" Message vide, rien envoyé à Telegram.");
 			return;
 		}
 
@@ -125,7 +151,7 @@ public class ListenerUpdateTelegram {
 		try {
 			restTemplate.postForEntity(url, request, String.class);
 		} catch (Exception e) {
-			System.err.println("❌ Erreur lors de l'envoi du message Telegram : " + e.getMessage());
+			System.err.println(" Erreur lors de l'envoi du message Telegram : " + e.getMessage());
 		}
 	}
 
