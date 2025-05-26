@@ -94,7 +94,7 @@ public class ListenerUpdateTelegram {
 					sendMessage(chatId, " Ville non trouvée.");
 				}
 			} catch (Exception e) {
-				sendMessage(chatId, "⚠ Erreur lors de la récupération de la météo.");
+				sendMessage(chatId, " Erreur lors de la récupération de la météo.");
 			}
 
 		} else if (messageText.toLowerCase().startsWith("blague")) {

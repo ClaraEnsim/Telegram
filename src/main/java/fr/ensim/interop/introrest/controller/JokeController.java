@@ -56,6 +56,7 @@ public class JokeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    
 
     @GetMapping("/search")
     public ResponseEntity<List<Joke>> searchJokeByTitle(@RequestParam String title) {
