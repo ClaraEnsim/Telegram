@@ -4,6 +4,7 @@ public class Meteo {
     private String meteo;
     private String details;
     private String temperature;
+    private String date; // NOUVEAU CHAMP
 
     public Meteo() {}
 
@@ -30,4 +31,9 @@ public class Meteo {
     public void setTemperature(String temperature) {
         this.temperature = temperature;
     }
+
+    public String getDate() {return date;}
+
+    public void setDate(String date) {this.date = date;}
+
 }
