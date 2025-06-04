@@ -1,17 +1,26 @@
 ## Telegram
 **Token**: 7340987230:AAEgslTT6jjFdmObq0YF5EdcJXX5wn07jSw
+**chatId** : 8123671151
 
 # Resulats:
 **Requête HTTP**:
 
-https://api.telegram.org/bot7340987230:AAEgslTT6jjFdmObq0YF5EdcJXX5wn07jSw/getMe
+**Envoyer un message au bot**
+POST http://localhost:9090/sendMessage
+{
+    "chat_id": 8123671151,
+    "text":"Bonjour my friend"
+}
 
+**requête avec API météo**
+GET http://localhost:9090/meteo/forecast?ville=Paris&days=3
 
-{"ok":true,"result":{"id":7340987230,"is_bot":true,
-"first_name":"Interop","username":"InteroperabiliteBot",
-"can_join_groups":true,"can_read_all_group_messages":false,
-"supports_inline_queries":false,"can_connect_to_business":false,
-"has_main_web_app":false}}
+**une blague aléatoire"
+GET http://localhost:9090/api/v1/joke/random
 
-
-**chatId** : 8123671151
+POST http://localhost:9090/api/v1/joke
+{
+    "titre":"blague nulle",
+    "texte" : "Toto rentre dans un bar",
+    "note" : 3.1
+}
