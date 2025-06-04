@@ -43,7 +43,7 @@ public class JokeController {
         }
     }
 
-    @GetMapping("/{jokeId}")
+   @GetMapping("/{jokeId}")
     public ResponseEntity<Joke> getJokeById(@PathVariable Long jokeId) {
         try {
             Optional<Joke> joke = jokeService.getJokeById(jokeId);
@@ -52,20 +52,6 @@ public class JokeController {
             } else {
                 return ResponseEntity.notFound().build();
             }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-    
-
-    @GetMapping("/search")
-    public ResponseEntity<List<Joke>> searchJokeByTitle(@RequestParam String title) {
-        try {
-            if (title == null || title.trim().isEmpty()) {
-                return ResponseEntity.badRequest().build();
-            }
-            List<Joke> jokes = jokeService.searchJokesByTitle(title);
-            return ResponseEntity.ok(jokes);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

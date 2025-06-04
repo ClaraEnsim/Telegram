@@ -42,3 +42,4 @@ fr\ensim\interop\introrest\model\weather\Meteo.class
 fr\ensim\interop\introrest\model\telegram\ApiResponseUpdateTelegram.class
 fr\ensim\interop\introrest\model\telegram\ChatMemberUpdated.class
 fr\ensim\interop\introrest\model\weather\OpenWeatherForecastItem.class
+fr\ensim\interop\introrest\service\JokeService$1.class

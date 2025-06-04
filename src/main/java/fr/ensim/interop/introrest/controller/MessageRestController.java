@@ -40,9 +40,15 @@ public class MessageRestController {
 
 		HttpEntity<Map<String, String>> request = new HttpEntity<>(requestBody, headers);
 
-		ResponseEntity<String> response = restTemplate.postForEntity(telegramApiUrl, request, String.class);
-
-		return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+		try {
+			ResponseEntity<String> response = restTemplate.postForEntity(telegramApiUrl, request, String.class);
+			return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+		} catch (Exception e) {
+			e.printStackTrace(); // Pour voir l’erreur dans la console
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Erreur lors de l’envoi du message à Telegram : " + e.getMessage());
+		}
 	}
+
 
 }

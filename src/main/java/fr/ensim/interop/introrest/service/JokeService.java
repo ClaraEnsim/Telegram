@@ -1,10 +1,15 @@
 package fr.ensim.interop.introrest.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.ensim.interop.introrest.model.joke.Joke;
 import fr.ensim.interop.introrest.model.joke.JokeInput;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -15,24 +20,21 @@ public class JokeService {
     private Long nextId = 1L;
 
     @PostConstruct
-    public void initializeJokes() {
-        jokes.add(new Joke(nextId++, "Le développeur et le café",
-                "Pourquoi les développeurs confondent-ils Halloween et Noël ? Parce qu'OCT 31 = DEC 25.", 8.5));
+    public void loadJokesFromJson() {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            InputStream inputStream = new ClassPathResource("jokes.json").getInputStream();
+            jokes = mapper.readValue(inputStream, new TypeReference<List<Joke>>() {});
 
-        jokes.add(new Joke(nextId++, "Le bug invisible",
-                "Un programmeur va au supermarché. Sa femme lui dit : 'Achète une baguette, et si ils ont des œufs, prends-en six.' Le programmeur revient avec 6 baguettes.", 9.0));
+            // Calcul du prochain ID
+            nextId = jokes.stream()
+                    .mapToLong(Joke::getId)
+                    .max()
+                    .orElse(0L) + 1;
 
-        jokes.add(new Joke(nextId++, "Le problème de société",
-                "Il y a 10 types de personnes dans le monde : ceux qui comprennent le binaire et ceux qui ne le comprennent pas.", 7.5));
-
-        jokes.add(new Joke(nextId++, "Entretien d'embauche",
-                "Lors d'un entretien d'embauche : 'Quels sont vos points forts ?' - 'Je suis un expert en recherche Google.' - 'Et vos points faibles ?' - 'Je ne sais pas, je n'ai jamais cherché ça sur Google.'", 6.8));
-
-        jokes.add(new Joke(nextId++, "L'optimisation",
-                "Un développeur entre dans un magasin. Il voit le panneau '10 tasses pour 9.99€'. Il en achète 0 parce qu'il n'avait pas besoin de tasse et il a économisé 9.99€.", 8.2));
-
-        jokes.add(new Joke(nextId++, "La blague nulle",
-                "Pourquoi les programmeurs préfèrent-ils le thé ? Parce que le café fait des bugs.", 3.2));
+        } catch (IOException e) {
+            throw new RuntimeException("Impossible de charger jokes.json", e);
+        }
     }
 
     public List<Joke> getAllJokes() {
@@ -57,8 +59,7 @@ public class JokeService {
         }
 
         Random random = new Random();
-        int randomIndex = random.nextInt(filteredJokes.size());
-        return Optional.of(filteredJokes.get(randomIndex));
+        return Optional.of(filteredJokes.get(random.nextInt(filteredJokes.size())));
     }
 
     public Optional<Joke> getJokeById(Long id) {
