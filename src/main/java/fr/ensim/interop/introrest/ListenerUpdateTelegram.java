@@ -66,15 +66,15 @@ public class ListenerUpdateTelegram {
 		} else if (messageText.toLowerCase().startsWith("blague")) {
 			handleJokeCommand(chatId, messageText);
 		} else {
-			sendMessage(chatId, "🤖 Commandes disponibles :\n" +
+			sendMessage(chatId, "Commandes disponibles :\n" +
 					" MÉTÉO :\n" +
 					"• 'météo [ville]' - Météo du jour\n" +
 					"• 'météo [ville] 3' - Météo 3 jours\n" +
 					"• 'météo demain [ville]' - Météo de demain\n\n" +
 					" BLAGUES :\n" +
 					"• 'blague' - Blague aléatoire\n" +
-					"• 'bonne blague' - Blague bien notée\n" +
-					"• 'blague nulle' - Blague mal notée");
+					"• 'blague drole OU bonne OU excellente' - Blague bien notée\n" +
+					"• 'blague nulle OU mauvaise' - Blague mal notée");
 		}
 	}
 
