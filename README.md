@@ -1,5 +1,6 @@
 ## Telegram
 **Token**: 7340987230:AAEgslTT6jjFdmObq0YF5EdcJXX5wn07jSw
+
 **chatId** : 8123671151
 
 # Resulats:
@@ -15,9 +16,10 @@ POST http://localhost:9090/sendMessage
 **requête avec API météo**
 GET http://localhost:9090/meteo/forecast?ville=Paris&days=3
 
-**une blague aléatoire"
+**une blague aléatoire**
 GET http://localhost:9090/api/v1/joke/random
 
+**requête ajout d'une blague**
 POST http://localhost:9090/api/v1/joke
 {
     "titre":"blague nulle",
